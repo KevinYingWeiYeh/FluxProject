@@ -7,7 +7,7 @@ class App extends React.Component {
 	constructor(props) {
 	  super(props);
 	  this.state = {
-	  	authenticated: false
+	  	authenticated: helpers.isLoggedIn()
 	  };
 	  this.logout = this.logout.bind(this);
 	}
@@ -30,6 +30,7 @@ class App extends React.Component {
 	}
 	logout() {
 		console.log('logout')
+		helpers.logout();
 		this.setState({ authenticated : false });
 	}
 

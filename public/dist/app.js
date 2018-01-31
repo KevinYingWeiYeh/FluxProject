@@ -95,7 +95,7 @@
 			var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
 			_this.state = {
-				authenticated: false
+				authenticated: _helpers2.default.isLoggedIn()
 			};
 			_this.logout = _this.logout.bind(_this);
 			return _this;
@@ -126,6 +126,7 @@
 			key: 'logout',
 			value: function logout() {
 				console.log('logout');
+				_helpers2.default.logout();
 				this.setState({ authenticated: false });
 			}
 		}, {
