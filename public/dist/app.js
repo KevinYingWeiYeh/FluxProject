@@ -46,47 +46,133 @@
 
 	'use strict';
 
+	var _Segment2 = __webpack_require__(649);
+
+	var _Segment3 = _interopRequireDefault(_Segment2);
+
+	var _Icon2 = __webpack_require__(483);
+
+	var _Icon3 = _interopRequireDefault(_Icon2);
+
 	var _Header2 = __webpack_require__(1);
 
 	var _Header3 = _interopRequireDefault(_Header2);
 
-	var _Container2 = __webpack_require__(644);
+	var _Container2 = __webpack_require__(648);
 
 	var _Container3 = _interopRequireDefault(_Container2);
 
-	var _Button2 = __webpack_require__(645);
+	var _Button2 = __webpack_require__(644);
 
 	var _Button3 = _interopRequireDefault(_Button2);
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(114);
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _helpers = __webpack_require__(652);
+
+	var _helpers2 = _interopRequireDefault(_helpers);
+
 	var _reactDom = __webpack_require__(491);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var MOUNT_NODE = document.getElementById('root');
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var App = function App() {
-	  return _react2.default.createElement(
-	    _Container3.default,
-	    null,
-	    _react2.default.createElement(
-	      _Header3.default,
-	      { as: 'h1' },
-	      'Hello world!'
-	    ),
-	    _react2.default.createElement(_Button3.default, {
-	      content: 'Discover docs',
-	      href: 'https://react.semantic-ui.com',
-	      icon: 'github',
-	      labelPosition: 'left'
-	    })
-	  );
-	};
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	(0, _reactDom.render)(_react2.default.createElement(App, null), MOUNT_NODE);
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var App = function (_React$Component) {
+		_inherits(App, _React$Component);
+
+		function App(props) {
+			_classCallCheck(this, App);
+
+			var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+			_this.state = {
+				authenticated: false
+			};
+			_this.logout = _this.logout.bind(_this);
+			return _this;
+		}
+
+		_createClass(App, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				var _this2 = this;
+
+				_helpers2.default.storeFluxUser().then(function () {
+					return _helpers2.default.isLoggedIn();
+				}).then(function (isLoggedIn) {
+					if (isLoggedIn === true) {
+						_this2.setState({ authenticated: true });
+					} else {
+						_this2.setState({ authenticated: false });
+					}
+				});
+			}
+		}, {
+			key: 'login',
+			value: function login() {
+				console.log('login');
+				_helpers2.default.redirectToFluxLogin();
+			}
+		}, {
+			key: 'logout',
+			value: function logout() {
+				console.log('logout');
+				this.setState({ authenticated: false });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var authenticated = this.state.authenticated;
+
+				return _react2.default.createElement(
+					_Container3.default,
+					null,
+					_react2.default.createElement(
+						_Segment3.default,
+						{ clearing: true },
+						_react2.default.createElement(
+							_Header3.default,
+							{ as: 'h1', floated: 'left' },
+							_react2.default.createElement(_Icon3.default, { name: 'plug' }),
+							_react2.default.createElement(
+								_Header3.default.Content,
+								null,
+								'FLUX project'
+							)
+						),
+						_react2.default.createElement(
+							_Header3.default,
+							{ as: 'h2', floated: 'right' },
+							this.state.authenticated ? _react2.default.createElement(_Button3.default, {
+								primary: true,
+								size: 'huge',
+								content: 'Log-out',
+								onClick: this.logout
+							}) : _react2.default.createElement(_Button3.default, {
+								primary: true,
+								size: 'huge',
+								content: 'Log-in',
+								onClick: this.login
+							})
+						)
+					)
+				);
+			}
+		}]);
+
+		return App;
+	}(_react2.default.Component);
+
+	(0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById('root'));
 
 /***/ }),
 /* 1 */
@@ -40199,85 +40285,6 @@
 	  value: true
 	});
 
-	var _extends2 = __webpack_require__(2);
-
-	var _extends3 = _interopRequireDefault(_extends2);
-
-	var _classnames = __webpack_require__(105);
-
-	var _classnames2 = _interopRequireDefault(_classnames);
-
-	var _propTypes = __webpack_require__(106);
-
-	var _propTypes2 = _interopRequireDefault(_propTypes);
-
-	var _react = __webpack_require__(114);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _lib = __webpack_require__(143);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	/**
-	 * A container limits content to a maximum width.
-	 */
-	function Container(props) {
-	  var children = props.children,
-	      className = props.className,
-	      fluid = props.fluid,
-	      text = props.text,
-	      textAlign = props.textAlign;
-
-	  var classes = (0, _classnames2.default)('ui', (0, _lib.useKeyOnly)(text, 'text'), (0, _lib.useKeyOnly)(fluid, 'fluid'), (0, _lib.useTextAlignProp)(textAlign), 'container', className);
-	  var rest = (0, _lib.getUnhandledProps)(Container, props);
-	  var ElementType = (0, _lib.getElementType)(Container, props);
-
-	  return _react2.default.createElement(
-	    ElementType,
-	    (0, _extends3.default)({}, rest, { className: classes }),
-	    children
-	  );
-	}
-
-	Container.handledProps = ['as', 'children', 'className', 'fluid', 'text', 'textAlign'];
-	Container._meta = {
-	  name: 'Container',
-	  type: _lib.META.TYPES.ELEMENT
-	};
-
-	Container.propTypes =  true ? {
-	  /** An element type to render as (string or function). */
-	  as: _lib.customPropTypes.as,
-
-	  /** Primary content. */
-	  children: _propTypes2.default.node,
-
-	  /** Additional classes. */
-	  className: _propTypes2.default.string,
-
-	  /** Container has no maximum width. */
-	  fluid: _propTypes2.default.bool,
-
-	  /** Reduce maximum width to more naturally accommodate text. */
-	  text: _propTypes2.default.bool,
-
-	  /** Align container text. */
-	  textAlign: _propTypes2.default.oneOf(_lib.SUI.TEXT_ALIGNMENTS)
-	} : {};
-
-	exports.default = Container;
-
-/***/ }),
-/* 645 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
 	var _toConsumableArray2 = __webpack_require__(342);
 
 	var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -40332,15 +40339,15 @@
 
 	var _Label2 = _interopRequireDefault(_Label);
 
-	var _ButtonContent = __webpack_require__(646);
+	var _ButtonContent = __webpack_require__(645);
 
 	var _ButtonContent2 = _interopRequireDefault(_ButtonContent);
 
-	var _ButtonGroup = __webpack_require__(647);
+	var _ButtonGroup = __webpack_require__(646);
 
 	var _ButtonGroup2 = _interopRequireDefault(_ButtonGroup);
 
-	var _ButtonOr = __webpack_require__(648);
+	var _ButtonOr = __webpack_require__(647);
 
 	var _ButtonOr2 = _interopRequireDefault(_ButtonOr);
 
@@ -40600,7 +40607,7 @@
 	exports.default = Button;
 
 /***/ }),
-/* 646 */
+/* 645 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40676,7 +40683,7 @@
 	exports.default = ButtonContent;
 
 /***/ }),
-/* 647 */
+/* 646 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40813,7 +40820,7 @@
 	exports.default = ButtonGroup;
 
 /***/ }),
-/* 648 */
+/* 647 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40875,6 +40882,374 @@
 	} : {};
 
 	exports.default = ButtonOr;
+
+/***/ }),
+/* 648 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends2 = __webpack_require__(2);
+
+	var _extends3 = _interopRequireDefault(_extends2);
+
+	var _classnames = __webpack_require__(105);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _propTypes = __webpack_require__(106);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _react = __webpack_require__(114);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _lib = __webpack_require__(143);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * A container limits content to a maximum width.
+	 */
+	function Container(props) {
+	  var children = props.children,
+	      className = props.className,
+	      fluid = props.fluid,
+	      text = props.text,
+	      textAlign = props.textAlign;
+
+	  var classes = (0, _classnames2.default)('ui', (0, _lib.useKeyOnly)(text, 'text'), (0, _lib.useKeyOnly)(fluid, 'fluid'), (0, _lib.useTextAlignProp)(textAlign), 'container', className);
+	  var rest = (0, _lib.getUnhandledProps)(Container, props);
+	  var ElementType = (0, _lib.getElementType)(Container, props);
+
+	  return _react2.default.createElement(
+	    ElementType,
+	    (0, _extends3.default)({}, rest, { className: classes }),
+	    children
+	  );
+	}
+
+	Container.handledProps = ['as', 'children', 'className', 'fluid', 'text', 'textAlign'];
+	Container._meta = {
+	  name: 'Container',
+	  type: _lib.META.TYPES.ELEMENT
+	};
+
+	Container.propTypes =  true ? {
+	  /** An element type to render as (string or function). */
+	  as: _lib.customPropTypes.as,
+
+	  /** Primary content. */
+	  children: _propTypes2.default.node,
+
+	  /** Additional classes. */
+	  className: _propTypes2.default.string,
+
+	  /** Container has no maximum width. */
+	  fluid: _propTypes2.default.bool,
+
+	  /** Reduce maximum width to more naturally accommodate text. */
+	  text: _propTypes2.default.bool,
+
+	  /** Align container text. */
+	  textAlign: _propTypes2.default.oneOf(_lib.SUI.TEXT_ALIGNMENTS)
+	} : {};
+
+	exports.default = Container;
+
+/***/ }),
+/* 649 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends2 = __webpack_require__(2);
+
+	var _extends3 = _interopRequireDefault(_extends2);
+
+	var _without2 = __webpack_require__(40);
+
+	var _without3 = _interopRequireDefault(_without2);
+
+	var _classnames = __webpack_require__(105);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _propTypes = __webpack_require__(106);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _react = __webpack_require__(114);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _lib = __webpack_require__(143);
+
+	var _SegmentGroup = __webpack_require__(650);
+
+	var _SegmentGroup2 = _interopRequireDefault(_SegmentGroup);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * A segment is used to create a grouping of related content.
+	 */
+	function Segment(props) {
+	  var attached = props.attached,
+	      basic = props.basic,
+	      children = props.children,
+	      circular = props.circular,
+	      className = props.className,
+	      clearing = props.clearing,
+	      color = props.color,
+	      compact = props.compact,
+	      disabled = props.disabled,
+	      floated = props.floated,
+	      inverted = props.inverted,
+	      loading = props.loading,
+	      padded = props.padded,
+	      piled = props.piled,
+	      raised = props.raised,
+	      secondary = props.secondary,
+	      size = props.size,
+	      stacked = props.stacked,
+	      tertiary = props.tertiary,
+	      textAlign = props.textAlign,
+	      vertical = props.vertical;
+
+
+	  var classes = (0, _classnames2.default)('ui', color, size, (0, _lib.useKeyOnly)(basic, 'basic'), (0, _lib.useKeyOnly)(circular, 'circular'), (0, _lib.useKeyOnly)(clearing, 'clearing'), (0, _lib.useKeyOnly)(compact, 'compact'), (0, _lib.useKeyOnly)(disabled, 'disabled'), (0, _lib.useKeyOnly)(inverted, 'inverted'), (0, _lib.useKeyOnly)(loading, 'loading'), (0, _lib.useKeyOnly)(piled, 'piled'), (0, _lib.useKeyOnly)(raised, 'raised'), (0, _lib.useKeyOnly)(secondary, 'secondary'), (0, _lib.useKeyOnly)(stacked, 'stacked'), (0, _lib.useKeyOnly)(tertiary, 'tertiary'), (0, _lib.useKeyOnly)(vertical, 'vertical'), (0, _lib.useKeyOrValueAndKey)(attached, 'attached'), (0, _lib.useKeyOrValueAndKey)(padded, 'padded'), (0, _lib.useTextAlignProp)(textAlign), (0, _lib.useValueAndKey)(floated, 'floated'), 'segment', className);
+	  var rest = (0, _lib.getUnhandledProps)(Segment, props);
+	  var ElementType = (0, _lib.getElementType)(Segment, props);
+
+	  return _react2.default.createElement(
+	    ElementType,
+	    (0, _extends3.default)({}, rest, { className: classes }),
+	    children
+	  );
+	}
+
+	Segment.handledProps = ['as', 'attached', 'basic', 'children', 'circular', 'className', 'clearing', 'color', 'compact', 'disabled', 'floated', 'inverted', 'loading', 'padded', 'piled', 'raised', 'secondary', 'size', 'stacked', 'tertiary', 'textAlign', 'vertical'];
+	Segment.Group = _SegmentGroup2.default;
+
+	Segment._meta = {
+	  name: 'Segment',
+	  type: _lib.META.TYPES.ELEMENT
+	};
+
+	Segment.propTypes =  true ? {
+	  /** An element type to render as (string or function). */
+	  as: _lib.customPropTypes.as,
+
+	  /** Attach segment to other content, like a header. */
+	  attached: _propTypes2.default.oneOfType([_propTypes2.default.bool, _propTypes2.default.oneOf(['top', 'bottom'])]),
+
+	  /** A basic segment has no special formatting. */
+	  basic: _propTypes2.default.bool,
+
+	  /** Primary content. */
+	  children: _propTypes2.default.node,
+
+	  /** A segment can be circular. */
+	  circular: _propTypes2.default.bool,
+
+	  /** Additional classes. */
+	  className: _propTypes2.default.string,
+
+	  /** A segment can clear floated content. */
+	  clearing: _propTypes2.default.bool,
+
+	  /** Segment can be colored. */
+	  color: _propTypes2.default.oneOf(_lib.SUI.COLORS),
+
+	  /** A segment may take up only as much space as is necessary. */
+	  compact: _propTypes2.default.bool,
+
+	  /** A segment may show its content is disabled. */
+	  disabled: _propTypes2.default.bool,
+
+	  /** Segment content can be floated to the left or right. */
+	  floated: _propTypes2.default.oneOf(_lib.SUI.FLOATS),
+
+	  /** A segment can have its colors inverted for contrast. */
+	  inverted: _propTypes2.default.bool,
+
+	  /** A segment may show its content is being loaded. */
+	  loading: _propTypes2.default.bool,
+
+	  /** A segment can increase its padding. */
+	  padded: _propTypes2.default.oneOfType([_propTypes2.default.bool, _propTypes2.default.oneOf(['very'])]),
+
+	  /** Formatted to look like a pile of pages. */
+	  piled: _propTypes2.default.bool,
+
+	  /** A segment may be formatted to raise above the page. */
+	  raised: _propTypes2.default.bool,
+
+	  /** A segment can be formatted to appear less noticeable. */
+	  secondary: _propTypes2.default.bool,
+
+	  /** A segment can have different sizes. */
+	  size: _propTypes2.default.oneOf((0, _without3.default)(_lib.SUI.SIZES, 'medium')),
+
+	  /** Formatted to show it contains multiple pages. */
+	  stacked: _propTypes2.default.bool,
+
+	  /** A segment can be formatted to appear even less noticeable. */
+	  tertiary: _propTypes2.default.bool,
+
+	  /** Formats content to be aligned as part of a vertical group. */
+	  textAlign: _propTypes2.default.oneOf((0, _without3.default)(_lib.SUI.TEXT_ALIGNMENTS, 'justified')),
+
+	  /** Formats content to be aligned vertically. */
+	  vertical: _propTypes2.default.bool
+	} : {};
+
+	exports.default = Segment;
+
+/***/ }),
+/* 650 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends2 = __webpack_require__(2);
+
+	var _extends3 = _interopRequireDefault(_extends2);
+
+	var _without2 = __webpack_require__(40);
+
+	var _without3 = _interopRequireDefault(_without2);
+
+	var _classnames = __webpack_require__(105);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _propTypes = __webpack_require__(106);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _react = __webpack_require__(114);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _lib = __webpack_require__(143);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * A group of segments can be formatted to appear together.
+	 */
+	function SegmentGroup(props) {
+	  var children = props.children,
+	      className = props.className,
+	      compact = props.compact,
+	      horizontal = props.horizontal,
+	      piled = props.piled,
+	      raised = props.raised,
+	      size = props.size,
+	      stacked = props.stacked;
+
+
+	  var classes = (0, _classnames2.default)('ui', size, (0, _lib.useKeyOnly)(compact, 'compact'), (0, _lib.useKeyOnly)(horizontal, 'horizontal'), (0, _lib.useKeyOnly)(piled, 'piled'), (0, _lib.useKeyOnly)(raised, 'raised'), (0, _lib.useKeyOnly)(stacked, 'stacked'), 'segments', className);
+	  var rest = (0, _lib.getUnhandledProps)(SegmentGroup, props);
+	  var ElementType = (0, _lib.getElementType)(SegmentGroup, props);
+
+	  return _react2.default.createElement(
+	    ElementType,
+	    (0, _extends3.default)({}, rest, { className: classes }),
+	    children
+	  );
+	}
+
+	SegmentGroup.handledProps = ['as', 'children', 'className', 'compact', 'horizontal', 'piled', 'raised', 'size', 'stacked'];
+	SegmentGroup._meta = {
+	  name: 'SegmentGroup',
+	  parent: 'Segment',
+	  type: _lib.META.TYPES.ELEMENT
+	};
+
+	SegmentGroup.propTypes =  true ? {
+	  /** An element type to render as (string or function). */
+	  as: _lib.customPropTypes.as,
+
+	  /** Primary content. */
+	  children: _propTypes2.default.node,
+
+	  /** Additional classes. */
+	  className: _propTypes2.default.string,
+
+	  /** A segment may take up only as much space as is necessary. */
+	  compact: _propTypes2.default.bool,
+
+	  /** Formats content to be aligned horizontally. */
+	  horizontal: _propTypes2.default.bool,
+
+	  /** Formatted to look like a pile of pages. */
+	  piled: _propTypes2.default.bool,
+
+	  /** A segment group may be formatted to raise above the page. */
+	  raised: _propTypes2.default.bool,
+
+	  /** A segment group can have different sizes. */
+	  size: _propTypes2.default.oneOf((0, _without3.default)(_lib.SUI.SIZES, 'medium')),
+
+	  /** Formatted to show it contains multiple pages. */
+	  stacked: _propTypes2.default.bool
+	} : {};
+
+	exports.default = SegmentGroup;
+
+/***/ }),
+/* 651 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var config = {
+	  url: 'http://localhost:3000',
+	  flux_url: 'https://flux.io', // flux url
+	  flux_client_id: '1af76c6d-de72-4963-b97a-496175195e31' // your app's client id
+	};
+
+	exports.default = config;
+
+/***/ }),
+/* 652 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _config = __webpack_require__(651);
+
+	var _config2 = _interopRequireDefault(_config);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var sdk = new FluxSdk(_config2.default.flux_client_id, { redirectUri: _config2.default.url, fluxUrl: _config2.default.flux_url });
+	var helpers = new FluxHelpers(sdk);
+
+	exports.default = helpers;
 
 /***/ })
 /******/ ]);

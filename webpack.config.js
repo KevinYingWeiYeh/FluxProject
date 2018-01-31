@@ -10,7 +10,7 @@ const webpackConfig = {
   target: 'web',
 
   entry: {
-    app: path.resolve('src/main.js'),
+    app: path.resolve('src/main.jsx'),
   },
 
   module: {
