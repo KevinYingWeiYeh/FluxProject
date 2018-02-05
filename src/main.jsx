@@ -13,7 +13,7 @@ class App extends React.Component {
 	  this.logout = this.logout.bind(this);
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		this.check();
 	}
 
@@ -30,21 +30,19 @@ class App extends React.Component {
 	}
 
 	login() {
-		console.log('login');
 		helpers.redirectToFluxLogin();
 		this.setState({ authenticated : true });
 	}
 	logout() {
-		console.log('logout')
 		helpers.logout();
 		this.setState({ authenticated : false });
 	}
 
   render () {
-  	var { authenticated} = this.state
+  	var { authenticated } = this.state
   	return (
 		  <Container>
-		   	<Segment>
+		   	<Segment vertical style = {{height : '80px'}}>
 				  		<Header as = 'h1' floated = 'left'>
 			  			  <Icon name = 'plug' />
 						    <Header.Content>
@@ -53,24 +51,39 @@ class App extends React.Component {
 					   	</Header>
 					   	<Header as='h2' floated='right'>
 						    {
-						    	this.state.authenticated ?
+						    	authenticated === true ?
 						    		<Button 
 						    			primary 
 						    			size ='huge'
 						    			content = 'Log-out'
 						    			onClick = {this.logout}
 						    			/>
-						    		:
-						    		<Button 
-						    			primary 
-						    			size ='huge'
-						    			content = 'Log-in'
-						    			onClick = {this.login}
-						    		/>
+						    		: 
+						    		authenticated === false ?
+							    		<Button 
+							    			primary 
+							    			size ='huge'
+							    			content = 'Log-in'
+							    			onClick = {this.login}
+							    		/>
+							    	:
+							    		null
 						    }
 					   	</Header>
-					  	<Viewport authenticated = {this.state.authenticated} />
 			  </Segment>
+					  	{
+					  		authenticated ? 
+					  			<Viewport authenticated = {authenticated} />
+					  		:
+					  			authenticated !== null ? 
+					  				<div>Please Login...</div>
+					  			:
+					  				<div>
+						  				<Dimmer active inverted>
+								        <Loader inverted>Loading</Loader>
+								      </Dimmer>
+								    </div>
+					  	}
 		  </Container>
   	)
   }
