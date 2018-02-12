@@ -100,14 +100,13 @@
 
 			_this.state = {
 				authenticated: null,
-				user: null,
 				projects: null,
-				logoutPage: null,
 				cells: null,
 				selectedCell: null
 			};
 			_this.logout = _this.logout.bind(_this);
 			_this.selectCell = _this.selectCell.bind(_this);
+			_this.clean = _this.clean.bind(_this);
 			return _this;
 		}
 
@@ -116,6 +115,11 @@
 			value: function componentWillMount() {
 				this.check();
 			}
+
+			/*
+	  		Checking if a user already loging or not first.
+	  */
+
 		}, {
 			key: 'check',
 			value: function check() {
@@ -131,6 +135,11 @@
 					}
 				});
 			}
+
+			/*
+	  		Fetching a users projects/cell data table information from flux server
+	  */
+
 		}, {
 			key: 'fetchData',
 			value: function fetchData() {
@@ -148,19 +157,42 @@
 					});
 				});
 			}
+
+			/*
+	  		Cleaning the viewport display
+	  */
+
+		}, {
+			key: 'clean',
+			value: function clean() {
+				this.setState({ selectedCell: null });
+			}
+
+			/*
+	  		Fetching a users projects/cell data table information from flux server
+	  */
+
 		}, {
 			key: 'selectCell',
 			value: function selectCell(projectId, cellId) {
-				// console.log('sellected new cell',projectId,cellId)
 				this.setState({ selectedCell: { projectId: projectId, cellId: cellId } });
-				console.log('this cell 2', this.state.selectedCell);
 			}
+
+			/*
+	  		Log-in to flux server to get user authentication 
+	  */
+
 		}, {
 			key: 'login',
 			value: function login() {
 				_helpers2.default.redirectToFluxLogin();
-				this.setState({ authenticated: true, loginPage: false });
+				this.setState({ authenticated: true });
 			}
+
+			/*
+	  		Log-out and erasing all of user projects data in the memory
+	  */
+
 		}, {
 			key: 'logout',
 			value: function logout() {
@@ -194,7 +226,7 @@
 						),
 						_react2.default.createElement(
 							_Dropdown3.default,
-							{ item: true, simple: true, floating: true, text: 'Projects' },
+							{ item: true, simple: true, text: 'Projects' },
 							_react2.default.createElement(
 								_Dropdown3.default.Menu,
 								null,
@@ -218,6 +250,11 @@
 									);
 								}) : null
 							)
+						),
+						_react2.default.createElement(
+							_Menu3.default.Item,
+							{ onClick: this.clean.bind(this) },
+							'Clean'
 						),
 						authenticated === true ? _react2.default.createElement(_Menu3.default.Item, {
 							name: 'Log-out',
@@ -44068,7 +44105,11 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               	login component is for loged-in home page
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 
 	var Login = function (_React$Component) {
 	  _inherits(Login, _React$Component);
@@ -44113,7 +44154,7 @@
 	            }),
 	            _react2.default.createElement(_Header3.default, {
 	              as: 'h2',
-	              content: 'Please click on "Projects" button to show your project!!',
+	              content: 'Please hover on "Projects" button to show your project.',
 	              style: { fontSize: '1.7em' },
 	              color: 'blue'
 	            })
@@ -45437,14 +45478,6 @@
 
 	var _Checkbox3 = _interopRequireDefault(_Checkbox2);
 
-	var _Loader2 = __webpack_require__(688);
-
-	var _Loader3 = _interopRequireDefault(_Loader2);
-
-	var _Dimmer2 = __webpack_require__(515);
-
-	var _Dimmer3 = _interopRequireDefault(_Dimmer2);
-
 	var _Icon2 = __webpack_require__(509);
 
 	var _Icon3 = _interopRequireDefault(_Icon2);
@@ -45477,7 +45510,11 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               	viewport component 
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 
 	var Viewport = function (_Component) {
 		_inherits(Viewport, _Component);
@@ -45505,24 +45542,40 @@
 			return _this;
 		}
 
+		// componentDidUpdate(){
+		// 	this.fetch();
+		// }
+
 		_createClass(Viewport, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
+				this.fetch();
+			}
+		}, {
+			key: 'fetch',
+			value: function fetch() {
 				var _this2 = this;
 
-				console.log('props:', this.props);
 				if (this.props) {
 					var viewport = new FluxViewport(document.querySelector("#view"));
-					viewport.setupDefaultLighting();
-					viewport.setClearColor(0xffffff);
 					_helpers2.default.getUser().getDataTable(this.props.selectedItem.projectId).getCell(this.props.selectedItem.cellId).fetch().then(function (data) {
 						_this2.setState({ data: data, viewport: viewport });
 						viewport.setGeometryEntity([data.value]);
 					});
 				}
 			}
+
+			/*
+	  		Dropdown munu for sidebar 
+	   */
+
 		}, {
 			key: 'shadow',
+
+
+			/*
+	  	shadow & helper are two functions for sidebar checkbox useage
+	  */
 			value: function shadow() {
 				this.setState({ shadow: !this.state.shadow });
 				if (this.state.shadow) {
@@ -45566,10 +45619,10 @@
 									'div',
 									{ style: { height: '600px' } },
 									_react2.default.createElement(
-										_Dimmer3.default,
+										Dimmer,
 										{ active: true, inverted: true },
 										_react2.default.createElement(
-											_Loader3.default,
+											Loader,
 											{ inverted: true },
 											'Loading'
 										)

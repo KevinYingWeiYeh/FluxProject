@@ -10,20 +10,22 @@ class App extends React.Component {
 	  super(props);
 	  this.state = {
 	  	authenticated: null,
-	  	user: null,
 	  	projects: null,
-	  	logoutPage: null,
 	  	cells: null,
 	  	selectedCell: null
 	  };
 	  this.logout = this.logout.bind(this);
 	  this.selectCell = this.selectCell.bind(this);
+	  this.clean = this.clean.bind(this);
 	}
 
 	componentWillMount() {
 		this.check();
 	}
 
+	/*
+			Checking if a user already loging or not first.
+	*/
 	check() {
 		helpers.storeFluxUser()
 	    .then(() => helpers.isLoggedIn())
@@ -36,6 +38,9 @@ class App extends React.Component {
 	    })
 	}
 
+	/*
+			Fetching a users projects/cell data table information from flux server
+	*/
 	fetchData() {
 		helpers.getUser().listProjects().then(projects => {
 			var projectEntries = projects.entities.map(project => helpers.getUser().getDataTable(project.id).listCells())
@@ -46,18 +51,31 @@ class App extends React.Component {
 		})
 	}
 
-
-	selectCell(projectId,cellId) {
-		// console.log('sellected new cell',projectId,cellId)
-		this.setState({ selectedCell : {projectId : projectId,cellId : cellId }})
-		console.log('this cell 2',this.state.selectedCell)
+	/*
+			Cleaning the viewport display
+	*/
+	clean() {
+		this.setState({selectedCell : null});
 	}
 
+	/*
+			Fetching a users projects/cell data table information from flux server
+	*/
+	selectCell(projectId,cellId) {
+		this.setState({ selectedCell : {projectId : projectId,cellId : cellId }})
+	}
+
+	/*
+			Log-in to flux server to get user authentication 
+	*/
 	login() {
 		helpers.redirectToFluxLogin();
-		this.setState({ authenticated : true, loginPage : false });
+		this.setState({ authenticated : true });
 	}
 
+	/*
+			Log-out and erasing all of user projects data in the memory
+	*/
 	logout() {
 		this.setState({logoutPage: true })
 		helpers.logout();
@@ -71,10 +89,10 @@ class App extends React.Component {
   	return (
   		<div>
 		    <Menu fixed='top' color={'teal'} inverted>
-		        <Menu.Item style={{'marginLeft' : '50px'}} >
-		         	<h1>Flux Project</h1>
+		      <Menu.Item style={{'marginLeft' : '50px'}} >
+		        <h1>Flux Project</h1>
 		        </Menu.Item>
-		        <Dropdown item simple floating text='Projects'>
+		        <Dropdown item simple text='Projects'>
 		          <Dropdown.Menu>
 		          {
 		          	this.state.projects && this.state.cells ? 
@@ -99,8 +117,11 @@ class App extends React.Component {
 		          		:
 		          		null
 		          }
-		          			</Dropdown.Menu>
+		         </Dropdown.Menu>
 		        </Dropdown>
+		        <Menu.Item onClick={this.clean.bind(this)}>
+		        	Clean
+		        </Menu.Item>
 				    {
 				    	authenticated === true ?
 				    		<Menu.Item 

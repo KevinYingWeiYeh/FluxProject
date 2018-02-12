@@ -1,3 +1,9 @@
+/*
+
+	login component is for loged-in home page
+
+*/
+
 import React from 'react';
 import { Button, Container, Header, Icon, Segment, Loader, Dimmer, Menu, Dropdown, Label, Transition} from 'semantic-ui-react'
 
@@ -9,6 +15,7 @@ class Login extends React.Component {
       visible: true
     })
   }	
+
 	render() {
     return (
       <Transition style={{'marginTop': '7em'}} visible={this.state.visible} animation='fade up' duration={1500}>
@@ -21,7 +28,7 @@ class Login extends React.Component {
               />
               <Header
                 as='h2'
-                content='Please click on "Projects" button to show your project!!'
+                content='Please hover on "Projects" button to show your project.'
                 style={{ fontSize: '1.7em'}}
                 color={'blue'}
               />

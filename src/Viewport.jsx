@@ -1,6 +1,12 @@
+/*
+
+	viewport component 
+
+*/
+
 import React, { Component } from 'react';
 import helpers from 'helpers.js';
-import { Grid, Segment, Container, Icon, Dimmer, Loader, Checkbox, Accordion, Divider } from 'semantic-ui-react';
+import { Grid, Segment, Container, Icon, Checkbox, Accordion, Divider } from 'semantic-ui-react';
 
 class Viewport extends Component {
 	constructor(props) {
@@ -14,12 +20,17 @@ class Viewport extends Component {
     this.helper = this.helper.bind(this);
   }
 	
+  // componentDidUpdate(){
+  // 	this.fetch();
+  // }
+
 	componentDidMount() {
-		console.log('props:',this.props)
+		this.fetch();
+	}
+
+	fetch() {
 		if(this.props) {
 			var viewport = new FluxViewport(document.querySelector("#view"))
-			viewport.setupDefaultLighting()
-			viewport.setClearColor(0xffffff)
  			helpers.getUser().getDataTable(this.props.selectedItem.projectId).getCell(this.props.selectedItem.cellId).fetch()
  				.then((data) => {
  					this.setState({data:data, viewport:viewport})
@@ -28,6 +39,9 @@ class Viewport extends Component {
 		}
 	}
 
+	/*
+			Dropdown munu for sidebar 
+  */
 	handleClick = (e, titleProps) => {
     var { index } = titleProps
     var { activeIndex } = this.state
@@ -35,6 +49,9 @@ class Viewport extends Component {
     this.setState({ activeIndex: newIndex })
   }
 
+  /*
+			shadow & helper are two functions for sidebar checkbox useage
+  */
 	shadow() {
 		this.setState({shadow: !this.state.shadow})
 		if(this.state.shadow) {
