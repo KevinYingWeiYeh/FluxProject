@@ -137,48 +137,23 @@
 				var _this3 = this;
 
 				_helpers2.default.getUser().listProjects().then(function (projects) {
-					var dataTables = {};
-					var cells = [];
-					var _iteratorNormalCompletion = true;
-					var _didIteratorError = false;
-					var _iteratorError = undefined;
-
-					try {
-						for (var _iterator = projects.entities[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-							var project = _step.value;
-
-							var dt = _helpers2.default.getUser().getDataTable(project.id);
-							dataTables[project.id] = { table: dt, handlers: {}, websocketOpen: false };
-						}
-					} catch (err) {
-						_didIteratorError = true;
-						_iteratorError = err;
-					} finally {
-						try {
-							if (!_iteratorNormalCompletion && _iterator.return) {
-								_iterator.return();
-							}
-						} finally {
-							if (_didIteratorError) {
-								throw _iteratorError;
-							}
-						}
-					}
-
-					for (var projectId in dataTables) {
-						_helpers2.default.getUser().getDataTable(projectId).listCells().then(function (cellsin) {
-							cells.push(cellsin.entities);
-							_this3.setState({ cells: cells, authenticated: true, projects: projects.entities });
-							console.log(cellsin);
+					var projectEntries = projects.entities.map(function (project) {
+						return _helpers2.default.getUser().getDataTable(project.id).listCells();
+					});
+					Promise.all(projectEntries).then(function (projectEntries) {
+						var cells = projectEntries.map(function (cell) {
+							return cell.entities;
 						});
-					}
+						_this3.setState({ cells: cells, authenticated: true, projects: projects.entities });
+					});
 				});
 			}
 		}, {
 			key: 'selectCell',
 			value: function selectCell(projectId, cellId) {
-				console.log('sellected new cell');
+				// console.log('sellected new cell',projectId,cellId)
 				this.setState({ selectedCell: { projectId: projectId, cellId: cellId } });
+				console.log('this cell 2', this.state.selectedCell);
 			}
 		}, {
 			key: 'login',
@@ -45535,6 +45510,7 @@
 			value: function componentDidMount() {
 				var _this2 = this;
 
+				console.log('props:', this.props);
 				if (this.props) {
 					var viewport = new FluxViewport(document.querySelector("#view"));
 					viewport.setupDefaultLighting();

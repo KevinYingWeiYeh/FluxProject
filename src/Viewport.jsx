@@ -15,6 +15,7 @@ class Viewport extends Component {
   }
 	
 	componentDidMount() {
+		console.log('props:',this.props)
 		if(this.props) {
 			var viewport = new FluxViewport(document.querySelector("#view"))
 			viewport.setupDefaultLighting()

@@ -37,29 +37,20 @@ class App extends React.Component {
 	}
 
 	fetchData() {
-		helpers.getUser().listProjects()
-			.then(projects =>{
-				var dataTables = {}	
-				var cells = []	
-				for(var project of projects.entities) {
-					 var dt = helpers.getUser().getDataTable(project.id)
-					 dataTables[project.id] = { table: dt, handlers: {}, websocketOpen: false }
-				}
-				for(var projectId in dataTables) {
-					helpers.getUser().getDataTable(projectId).listCells()
-						.then(cellsin => {
-							cells.push(cellsin.entities)
-							this.setState({ cells: cells, authenticated : true, projects: projects.entities});
-							console.log(cellsin)
-						})
-				}
+		helpers.getUser().listProjects().then(projects => {
+			var projectEntries = projects.entities.map(project => helpers.getUser().getDataTable(project.id).listCells())
+			Promise.all(projectEntries).then(projectEntries => {
+				var cells = projectEntries.map(cell => cell.entities)
+				this.setState({cells: cells, authenticated: true, projects: projects.entities})
 			})
-		}
+		})
+	}
 
 
 	selectCell(projectId,cellId) {
-		console.log('sellected new cell')
+		// console.log('sellected new cell',projectId,cellId)
 		this.setState({ selectedCell : {projectId : projectId,cellId : cellId }})
+		console.log('this cell 2',this.state.selectedCell)
 	}
 
 	login() {
@@ -84,7 +75,7 @@ class App extends React.Component {
 		         	<h1>Flux Project</h1>
 		        </Menu.Item>
 		        <Dropdown item simple floating text='Projects'>
-		          			<Dropdown.Menu>
+		          <Dropdown.Menu>
 		          {
 		          	this.state.projects && this.state.cells ? 
 		          		this.state.projects.map((project,index)=> {
