@@ -1,83 +1,154 @@
 import React, { Component } from 'react';
-import helpers from 'helpers.js'
-import Promise from 'bluebird'
-import { Grid, Segment, Container } from 'semantic-ui-react';
-import { WindowResizeListener } from 'react-window-resize-listener'
+import helpers from 'helpers.js';
+import { Grid, Segment, Container, Icon, Dimmer, Loader, Checkbox, Accordion, Divider } from 'semantic-ui-react';
 
 class Viewport extends Component {
 	constructor(props) {
     super(props);
     this.state = {
-    	projects : null,
-    	selectedProject: null,
-    	projectCells: null,
-    	selectedOutputCell:null
+    	shadow : false,
+    	helper : false,
+    	activeIndex: 0
     }
+    this.shadow = this.shadow.bind(this);
+    this.helper = this.helper.bind(this);
   }
 	
 	componentDidMount() {
-		this.initViewport();
+		if(this.props) {
+			var viewport = new FluxViewport(document.querySelector("#view"))
+			viewport.setupDefaultLighting()
+			viewport.setClearColor(0xffffff)
+ 			helpers.getUser().getDataTable(this.props.selectedItem.projectId).getCell(this.props.selectedItem.cellId).fetch()
+ 				.then((data) => {
+ 					this.setState({data:data, viewport:viewport})
+					viewport.setGeometryEntity([data.value])
+ 				})
+		}
 	}
 
-	initViewport() {
-		// var box_data = [
-		//   {
-		//     "origin": [
-		//       -0.9493143529813757,
-		//       -0.6801228033529476,
-		//       0.5
-		//     ],
-		//     "dimensions": [
-		//       1,
-		//       1,
-		//       1
-		//     ],
-		//     "axis": [
-		//       0,
-		//       0,
-		//       -1
-		//     ],
-		//     "reference": [
-		//       0,
-		//       1,
-		//       0
-		//     ],
-		//     "primitive": "block",
-		//     "units": {
-		//       "dimensions": "feet",
-		//       "origin": "feet"
-		//     }
-		//   }
-		// ]
-		var viewport = new FluxViewport(document.querySelector("#view"))
-		viewport.setupDefaultLighting()
- 			helpers.getUser().getDataTable('aZyJQgrmEDn4706Aj').getCell('40f464b2310c9827f9c0a350cae4b698').fetch()
- 				.then((data) => {
- 					console.log('data:',data.value)
- 					this.setState({data:data})
-					viewport.setGeometryEntity(data.value)
+	handleClick = (e, titleProps) => {
+    var { index } = titleProps
+    var { activeIndex } = this.state
+    var newIndex = activeIndex === index ? -1 : index
+    this.setState({ activeIndex: newIndex })
+  }
 
- 				})
+	shadow() {
+		this.setState({shadow: !this.state.shadow})
+		if(this.state.shadow) {
+			this.state.viewport.deactivateShadows()
+		} else {
+			this.state.viewport.activateShadows()
+		}
+		this.state.viewport.render();
+	}
+
+	helper() {
+		this.setState({helper: !this.state.helper})
+		this.state.viewport.setHelpersVisible(this.state.helper)
+		this.state.viewport.render();
 	}
 
   render() {
+  	const { activeIndex } = this.state
   	return (
   		<Container
   		style = {{
-  			height: '100%'
+  			height: '100%',
+  			'marginTop': '7em', 
+  			padding: 'none', 
+  			border: 'none' 
   		}}>
   		<Grid celled>
-		    <Grid.Row>
+		    <Grid.Row >
 		      <Grid.Column width={12}>
-		      	<div id = 'view' style = {{height: '600px' }}></div>
+		      {
+		      	this.props ?
+  	      	  	<div id = 'view' style = {{height: '600px', padding: 'none', border: 'none' }}></div>
+  	      	  :
+		      		<div style = {{height: '600px'}}>
+			  				<Dimmer active inverted>
+					        <Loader inverted>Loading</Loader>
+					      </Dimmer>
+					    </div>
+		      }
 		      </Grid.Column>
 		      <Grid.Column width={4}>
-		      	<div></div>
+		      	<Accordion >
+			        <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
+			          <Icon name='dropdown' />
+			          Options
+			        </Accordion.Title>
+			        <Accordion.Content active={activeIndex === 0}>
+			        	<Grid.Row  >
+					        <Grid.Column>
+					        	<Checkbox slider label={{children:'Shadow'}} onClick = {this.shadow}/>
+					        </Grid.Column>
+					      </Grid.Row>
+					      <Divider />
+					      <Grid.Row  >
+					        <Grid.Column>
+					        	<Checkbox slider defaultChecked label={{children:'Map Helper'}} onClick = {this.helper}/>
+					        </Grid.Column>
+					      </Grid.Row>
+			        </Accordion.Content>
+				      <Divider />
+			        <Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick}>
+			          <Icon name='dropdown' />
+			          Information
+			        </Accordion.Title>
+			        <Accordion.Content active={activeIndex === 1}>
+			        <Segment>
+			 					<Icon color='teal' name='user'/>
+			 					Author:
+			 					<br/>
+			 					{
+			 						this.state.data ?
+			 							this.state.data.authorName
+			 							:
+			 							null
+			 					}
+			 					<br/>
+			 					<br/>
+			 					<Icon color='teal' name='id card'/>
+			 					Customer:
+			 					<br/>
+			 					{
+			 						this.state.data ?
+			 							this.state.data.clientName
+			 							:
+			 							null
+			 					}
+			 					<br/>
+			 					<br/>
+			 					<Icon color='teal' name='protect'/>
+			 					CellName:
+			 					<br/>
+								{
+			 						this.state.data ?
+			 							this.state.data.label
+			 							:
+			 							null
+			 					}
+			 					<br/>
+			 					<br/>
+			 					<Icon color='teal' name='bookmark'/>
+			 					Description:
+			 					<br/>
+								{
+			 						this.state.data ?
+			 							this.state.data.description
+			 							:
+			 							null
+			 					}
+			 					</Segment>
+			        </Accordion.Content>
+			      </Accordion>
 		      </Grid.Column>
 		    </Grid.Row>
 	  	</Grid>
   		</Container>
-
   	)
   }
 }
