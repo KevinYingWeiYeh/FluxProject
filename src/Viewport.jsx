@@ -20,10 +20,6 @@ class Viewport extends Component {
     this.helper = this.helper.bind(this);
   }
 	
-  // componentDidUpdate(){
-  // 	this.fetch();
-  // }
-
 	componentDidMount() {
 		this.fetch();
 	}
@@ -43,33 +39,33 @@ class Viewport extends Component {
 			Dropdown munu for sidebar 
   */
 	handleClick = (e, titleProps) => {
-    var { index } = titleProps
-    var { activeIndex } = this.state
-    var newIndex = activeIndex === index ? -1 : index
-    this.setState({ activeIndex: newIndex })
+    var { index } = titleProps;
+    var { activeIndex } = this.state;
+    var newIndex = activeIndex === index ? -1 : index;
+    this.setState({ activeIndex: newIndex });
   }
 
   /*
 			shadow & helper are two functions for sidebar checkbox useage
   */
 	shadow() {
-		this.setState({shadow: !this.state.shadow})
+		this.setState({shadow: !this.state.shadow});
 		if(this.state.shadow) {
-			this.state.viewport.deactivateShadows()
+			this.state.viewport.deactivateShadows();
 		} else {
-			this.state.viewport.activateShadows()
+			this.state.viewport.activateShadows();
 		}
 		this.state.viewport.render();
 	}
 
 	helper() {
-		this.setState({helper: !this.state.helper})
-		this.state.viewport.setHelpersVisible(this.state.helper)
+		this.setState({helper: !this.state.helper});
+		this.state.viewport.setHelpersVisible(this.state.helper);
 		this.state.viewport.render();
 	}
 
   render() {
-  	const { activeIndex } = this.state
+  	const { activeIndex } = this.state;
   	return (
   		<Container
   		style = {{

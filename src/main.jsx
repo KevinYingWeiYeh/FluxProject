@@ -83,9 +83,9 @@ class App extends React.Component {
 	}
 
   render () {
-  	var { authenticated } = this.state
-  	var { selectedCell } = this.state
-  	var { logoutPage } = this.state
+  	var { authenticated } = this.state;
+  	var { selectedCell } = this.state;
+  	var { logoutPage } = this.state;
   	return (
   		<div>
 		    <Menu fixed='top' color={'teal'} inverted>
